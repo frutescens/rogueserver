@@ -86,6 +86,7 @@ func ProcessSessionMetrics(save defs.SessionSaveData, uuid []byte) {
 				formIndex = "-"+save.Party[i]["formIndex"]
 			}
 			key = save.Party[i]["Species"] + formIndex
+			log.Printf("incremented starter %s", key)
 			starterCounter.WithLabelValues(key).Inc()
 		}
 	}
