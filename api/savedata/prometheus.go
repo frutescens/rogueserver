@@ -14,19 +14,11 @@ var (
 		[]string{"gamemode"},
 	)
 
-	endlessStarterCounter = promauto.NewCounterVec(
-		prometheus.CounterOpts{
-			Name: "rogueserver__endless_starter_count",
-			Help: "The total number of times a specific starter was selected in Endless/Endless-Spliced",
-		},
-		[]string{"starterKey"},
-	)
-
 	starterCounter = promauto.NewCounterVec(
 		prometheus.CounterOpts{
 			Name: "rogueserver_starter_count",
-			Help: "The total number of times a specific starter was selected in Classic/Challenge",
+			Help: "The total number of times a specific starter was selected",
 		},
-		[]string{"starterKey"},
+		[]string{"starterKey", "gameMode"},
 	)
 )
