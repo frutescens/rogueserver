@@ -108,7 +108,13 @@ func ProcessSessionMetrics(save defs.SessionSaveData, username string) {
 
 			key := fmt.Sprintf("%d%s", species, formIndex)
 			party += key + ","
-			starterCounter.WithLabelValues(key).Inc()
+			if save.GameMode == 1 || save.GameMode == 2 {
+				endlessStarterCounter.WithLabelValues(key).Inc()
+			}
+			if save.GameMode == 0 || save.GameMode == 4 {
+				starterCounter.WithLabelValues(key).Inc()
+			}
+
 		}
 		log.Printf("Incremented starters %s count for %s", party, username)
 	}
