@@ -83,9 +83,10 @@ func ProcessSessionMetrics(save defs.SessionSaveData, username string) {
 				continue
 			}
 
-			formIndex := ""
-			if formIdx, ok := partyMember["formIndex"].(float64); ok && formIdx != 0 {
-				formIndex = fmt.Sprintf("-%d", int(formIdx))
+			formIndex, ok := partyMember["formIndex"].(float64)
+			if !ok {
+				log.Printf("invalid formIndex for party member at index %d", i)
+				continue
 			}
 
 			speciesFloat, ok := partyMember["species"].(float64)
@@ -93,9 +94,8 @@ func ProcessSessionMetrics(save defs.SessionSaveData, username string) {
 				log.Printf("invalid type for Species at index %d", i)
 				continue
 			}
-			species := int(speciesFloat)
 
-			key := fmt.Sprintf("%d%s", species, formIndex)
+			key := api.getPokemonName(speciesFloat, formIndex)
 			party += key + ","
 			starterCounter.WithLabelValues(key, getGameModeKey(save.GameMode)).Inc()
 
