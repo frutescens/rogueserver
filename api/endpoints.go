@@ -277,7 +277,7 @@ func handleSession(w http.ResponseWriter, r *http.Request) {
 			runResultCounter.WithLabelValues("loss", getGameModeKey(gameMode)).Inc()
 		}
 
-		resp, err := savedata.NewClear(uuid, slot, result, gameMode)
+		resp, err := savedata.NewClear(uuid, slot)
 		if err != nil {
 			httpError(w, r, fmt.Errorf("failed to read new clear: %s", err), http.StatusInternalServerError)
 			return
