@@ -25,7 +25,7 @@ import (
 )
 
 // /savedata/newclear - return whether a session is a new clear for its seed
-func NewClear(uuid []byte, slot int) (bool, error) {
+func NewClear(uuid []byte, slot int, result bool, gameMode int) (bool, error) {
 	if slot < 0 || slot >= defs.SessionSlotCount {
 		return false, fmt.Errorf("slot id %d out of range", slot)
 	}
