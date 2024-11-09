@@ -269,7 +269,7 @@ func handleSession(w http.ResponseWriter, r *http.Request) {
 
 		writeJSON(w, r, resp)
 	case "newclear":
-		result, err := strconv.ParseBool(r.URL.Query().Get("result"))
+		result, err := strconv.ParseBool(r.URL.Query().Get("isVictory"))
 		resp, err := savedata.NewClear(uuid, slot, result)
 		if err != nil {
 			httpError(w, r, fmt.Errorf("failed to read new clear: %s", err), http.StatusInternalServerError)
