@@ -270,14 +270,7 @@ func handleSession(w http.ResponseWriter, r *http.Request) {
 		writeJSON(w, r, resp)
 	case "newclear":
 		result, err := strconv.ParseBool(r.URL.Query().Get("result"))
-		gameMode, err := strconv.Atoi(r.URL.Query().Get("gameMode"))
-		if result {
-			runResultCounter.WithLabelValues("victory", getGameModeKey(gameMode)).Inc()
-		} else {
-			runResultCounter.WithLabelValues("loss", getGameModeKey(gameMode)).Inc()
-		}
-
-		resp, err := savedata.NewClear(uuid, slot)
+		resp, err := savedata.NewClear(uuid, slot, result)
 		if err != nil {
 			httpError(w, r, fmt.Errorf("failed to read new clear: %s", err), http.StatusInternalServerError)
 			return

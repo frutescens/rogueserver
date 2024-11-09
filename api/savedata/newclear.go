@@ -25,14 +25,22 @@ import (
 )
 
 // /savedata/newclear - return whether a session is a new clear for its seed
-func NewClear(uuid []byte, slot int) (bool, error) {
+func NewClear(uuid []byte, slot int, result bool) (bool, error) {
 	if slot < 0 || slot >= defs.SessionSlotCount {
 		return false, fmt.Errorf("slot id %d out of range", slot)
 	}
 
 	session, err := db.ReadSessionSaveData(uuid, slot)
+
 	if err != nil {
 		return false, err
+	}
+	gameMode := getGameModeKey(session.GameMode)
+	waveIndex := fmt.Sprintf("%d", session.WaveIndex)
+	if result {
+		runResultCounter.WithLabelValues("victory", waveIndex, gameMode)
+	} else {
+		runResultCounter.WithLabelValues("loss", waveIndex, gameMode)
 	}
 
 	completed, err := db.ReadSeedCompleted(uuid, session.Seed)

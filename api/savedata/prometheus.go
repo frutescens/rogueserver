@@ -27,6 +27,6 @@ var (
 			Name: "rogueserver_run_result_count",
 			Help: "The total number of victories and losses logged",
 		}
-		[]string("victory", "gameMode")
+		[]string("victory", "waveIndex", "gameMode")
 	)
 )
