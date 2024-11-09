@@ -37,15 +37,16 @@ func NewClear(uuid []byte, slot int, result bool) (bool, error) {
 	}
 	gameMode := getGameModeKey(session.GameMode)
 	waveIndex := fmt.Sprintf("%d", session.WaveIndex)
+	completed := true
 	if result {
 		runResultCounter.WithLabelValues("victory", waveIndex, gameMode).Inc()
+		completed, err := db.ReadSeedCompleted(uuid, session.Seed)
+		if err != nil {
+			return false, fmt.Errorf("failed to read seed completed: %s", err)
+		}
+		return !completed, err
 	} else {
 		runResultCounter.WithLabelValues("loss", waveIndex, gameMode).Inc()
-	}
-
-	completed, err := db.ReadSeedCompleted(uuid, session.Seed)
-	if err != nil {
-		return false, fmt.Errorf("failed to read seed completed: %s", err)
 	}
 
 	return !completed, nil
