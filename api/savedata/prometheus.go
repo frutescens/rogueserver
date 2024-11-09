@@ -26,7 +26,7 @@ var (
 		prometheus.CounterOpts{
 			Name: "rogueserver_run_result_count",
 			Help: "The total number of victories and losses logged",
-		}
-		[]string("victory", "waveIndex", "gameMode")
+		},
+		[]string("victory", "waveIndex", "gameMode"),
 	)
 )

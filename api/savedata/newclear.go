@@ -38,9 +38,9 @@ func NewClear(uuid []byte, slot int, result bool) (bool, error) {
 	gameMode := getGameModeKey(session.GameMode)
 	waveIndex := fmt.Sprintf("%d", session.WaveIndex)
 	if result {
-		runResultCounter.WithLabelValues("victory", waveIndex, gameMode)
+		runResultCounter.WithLabelValues("victory", waveIndex, gameMode).Inc()
 	} else {
-		runResultCounter.WithLabelValues("loss", waveIndex, gameMode)
+		runResultCounter.WithLabelValues("loss", waveIndex, gameMode).Inc()
 	}
 
 	completed, err := db.ReadSeedCompleted(uuid, session.Seed)
